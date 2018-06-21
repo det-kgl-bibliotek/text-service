@@ -3,16 +3,13 @@
 
 openshift.withCluster() { // Use "default" cluster or fallback to OpenShift cluster detection
 
-
-    echo "Hello from the project running Jenkins: ${openshift.project()}"
-
-//    //Print environment, for debug purposes
-//    stage('environment') {
-//        sh 'env > env.txt'
-//        for (String i : readFile('env.txt').split("\r?\n")) {
-//            println i
-//        }
-//    }
+    stage('environment') {
+        echo "Print environment vars for debug purposes"
+        sh 'env > env.txt'
+        for (String i : readFile('env.txt').split("\r?\n")) {
+            println i
+        }
+    }
 
     String projectName = encodeName("${JOB_NAME}")
     echo "name=${projectName}"
@@ -49,8 +46,9 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
 
                 //We have to create a route, as the maven node is not part of the same project as the tomcat pod,
                 // and thus cannot connect directly to the service
-                openshift.raw("expose", "service/testopenshift")
-                route = openshift.selector("route/testopenshift")
+
+                openshift.raw("expose", "service/${rubyApp.narrow("svc").object().metadata.name}")
+                route = openshift.selector("route/${rubyApp.narrow("svc").object().metadata.name}")
                 routeURL = "http://${route.object().spec.host}"
                 echo "Webserver host exposes as ${routeURL}"
             }
