@@ -54,6 +54,7 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
             }
 
             stage("test rails app") {
+                //TODO a bit more advanced test. At least check that the frontpage is displayed and not an error
                 sh "curl ${routeURL}"
             }
 
