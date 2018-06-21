@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "Before running application"
+
+rails db:migrate RAILS_ENV=development
+
+exec /usr/libexec/s2i/run
