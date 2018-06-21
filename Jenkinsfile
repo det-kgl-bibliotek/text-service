@@ -54,6 +54,8 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
             }
 
             stage("test rails app") {
+                //TODO wait for the server to load here
+                //TODO Something like sleep 30 seconds
                 //TODO a bit more advanced test. At least check that the frontpage is displayed and not an error
                 sh "curl ${routeURL}"
             }
