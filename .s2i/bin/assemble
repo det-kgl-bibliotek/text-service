@@ -9,12 +9,15 @@ rc=$?
 
 if [ $rc -eq 0 ]; then
     echo "After successful assembling"
+
+    echo "Changing permissions so the running user can read and write in /opt/app-root/"
+    chgrp -R 0 /opt/app-root/
+    chmod -R g=u /opt/app-root/
+
 else
     echo "After failed assembling"
 fi
 
-chgrp -R 0 /opt/app-root/
-chmod -R g=u /opt/app-root/
 
 
 exit $rc
